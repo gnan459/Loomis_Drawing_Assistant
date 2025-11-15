@@ -1,0 +1,21 @@
+# Core dependencies
+opencv-python
+mediapipe
+numpy
+pillow
+
+# Web UI
+streamlit
+
+# PDF generation
+reportlab
+
+# Optional visualization / debugging
+matplotlib
+
+# (Optional) AI text instruction generation
+google-generativeai
+openai
+
+# (Optional) Speech feedback
+
