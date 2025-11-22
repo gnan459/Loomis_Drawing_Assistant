@@ -106,14 +106,17 @@ def detect_pose_and_face(input_file, display=True):
 # print(head, width, center)
 
 
-data = detect_pose_and_face("D:/Loomis_Drawing_Assistant/tests/image_1.jpg")
-from geometry_utils import calculate_head_dimensions, compute_centerline
-from render_steps import construct_loomis_sphere
+data = detect_pose_and_face("D:/Loomis_Drawing_Assistant/tests/image_2.jpg")
+from geometry_utils import calculate_head_dimensions, compute_centerline, compute_face_turn_angle
+from render_steps import construct_loomis_sphere, construct_vertical_line, construct_brow_line
 
 radius, center, skull_top = calculate_head_dimensions(data['face'])
 angle, nose, chin = compute_centerline(data['face'])
-image = cv2.imread("D:/Loomis_Drawing_Assistant/tests/image_1.jpg")
-annotated = construct_loomis_sphere(image, center, radius, angle)
+direction = compute_face_turn_angle(data["face"])
+image = cv2.imread("D:/Loomis_Drawing_Assistant/tests/image_2.jpg")
+image= construct_loomis_sphere(image, center, radius, direction, data["face"])
+image = construct_vertical_line(image, data["face"])
+image = construct_brow_line(image, data["face"])
 
-cv2.imshow("Loomis Sphere", annotated)
+cv2.imshow("Image", image)
 cv2.waitKey(0)

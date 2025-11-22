@@ -27,7 +27,18 @@ def calculate_head_dimensions(face_landmarks):
     return radius, center, skull_top
 
 
+def compute_face_turn_angle(face_landmarks):
 
+    nose = face_landmarks[1]
+
+    # compute center of all face landmarks
+    xs = [p[0] for p in face_landmarks]
+    center_x = sum(xs) / len(xs)
+
+    if nose[0] < center_x:
+        return "right"   # nose moved right → head turns right
+    else:
+        return "left"
 
 def compute_centerline(face_landmarks):
     if face_landmarks is None or len(face_landmarks) < 468:
