@@ -17,5 +17,9 @@ matplotlib
 google-generativeai
 openai
 
-# (Optional) Speech feedback
+# MCP and Agent
+langchain_ollama
+langchain_mcp_adapters
+fastmcp
+
 
