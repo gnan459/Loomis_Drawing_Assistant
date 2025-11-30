@@ -106,22 +106,22 @@ def detect_pose_and_face(input_file, display=True):
 # print(head, width, center)
 
 
-data = detect_pose_and_face("D:/Loomis_Drawing_Assistant/tests/image_4.jpg")
-from geometry_utils import calculate_head_dimensions, compute_centerline, compute_face_turn_angle
-from render_steps import construct_loomis_sphere, construct_vertical_line, construct_brow_line, construct_nose_line, construct_chin_line, construct_ellipse_vertical_line, construct_jaw_line, construct_outer_face_line
+# data = detect_pose_and_face("D:/Loomis_Drawing_Assistant/tests/image_4.jpg")
+# from geometry_utils import calculate_head_dimensions, compute_centerline, compute_face_turn_angle
+# from render_steps import construct_loomis_sphere, construct_vertical_line, construct_brow_line, construct_nose_line, construct_chin_line, construct_ellipse_vertical_line, construct_jaw_line, construct_outer_face_line
 
-radius, center, skull_top = calculate_head_dimensions(data['face'])
-angle, nose, chin = compute_centerline(data['face'])
-direction = compute_face_turn_angle(data["face"])
-image = cv2.imread("D:/Loomis_Drawing_Assistant/tests/image_4.jpg")
-image= construct_loomis_sphere(image, center, radius, direction, data["face"])
-image = construct_vertical_line(image, data["face"])
-image = construct_brow_line(image, data["face"])
-image = construct_nose_line(image, data["face"])
-image = construct_chin_line(image, data["face"])
-image = construct_ellipse_vertical_line(image,center,radius,direction, data["face"])
-image = construct_jaw_line(image, data["face"])
-image = construct_outer_face_line(image, data["face"], direction)
+# radius, center, skull_top = calculate_head_dimensions(data['face'])
+# angle, nose, chin = compute_centerline(data['face'])
+# direction = compute_face_turn_angle(data["face"])
+# image = cv2.imread("D:/Loomis_Drawing_Assistant/tests/image_4.jpg")
+# image= construct_loomis_sphere(image, center, radius, direction, data["face"])
+# image = construct_vertical_line(image, data["face"])
+# image = construct_brow_line(image, data["face"])
+# image = construct_nose_line(image, data["face"])
+# image = construct_chin_line(image, data["face"])
+# image = construct_ellipse_vertical_line(image,center,radius,direction, data["face"])
+# image = construct_jaw_line(image, data["face"])
+# image = construct_outer_face_line(image, data["face"], direction)
 
-cv2.imshow("Image", image)
-cv2.waitKey(0)
+# cv2.imshow("Image", image)
+# cv2.waitKey(0)
