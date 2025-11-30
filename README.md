@@ -86,11 +86,5 @@ Output includes sphere, ellipse, centerline, brow line, nose line, chin line, ja
 ## 9. Value Proposition
 The tool automates Loomis construction, helping artists produce consistent proportions.
 
-## 10. Expected Kaggle Score
-Pitch: 27–30  
-Implementation: 60–70  
-Bonus: up to 20  
-Estimated total: 90–100.
-
 ## 11. Conclusion
 A complete AI pipeline integrating CV, geometry, LLM reasoning, and tool orchestration to generate Loomis construction guides.
