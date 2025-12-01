@@ -21,9 +21,10 @@ The Loomis Drawing Assistant:
 - Uses a ReAct-based LLM agent to analyze images and call tools
 - Exposes tools through an MCP server
 - Runs entirely locally through Ollama without cloud dependencies
+- Gives step by step instructions on how to draw the guidelines
 
 ## 4. Architecture
-User Input → LLM Agent → Tools → MediaPipe → Geometry Utils → Render Steps → Output
+User Input → LLM Agent → Tools → MediaPipe → Geometry Utils → Second LLM Agent(Instructor) → Output
 
 Core components:
 - agent.py
@@ -31,6 +32,7 @@ Core components:
 - pose_detection.py
 - geometry_utils.py
 - render_steps.py
+- drawing_instructor_agent.py
 
 ## 5. Features Demonstrated
 - Multi-agent tool workflow
@@ -81,7 +83,7 @@ Apply Loomis to D:/images/photo.jpg and save to D:/output/loomis.jpg
 ```
 
 ## 8. Example Output Description
-Output includes sphere, ellipse, centerline, brow line, nose line, chin line, jawline, and outer contour.
+Output includes sphere, ellipse, centerline, brow line, nose line, chin line, jawline, outer contour and step by step tutorial guide.
 
 ## 9. Value Proposition
 The tool automates Loomis construction, helping artists produce consistent proportions.
