@@ -6,16 +6,12 @@ instructor_llm = ChatOllama(
 )
 
 def generate_drawing_instructions(
-        direction: str,
+    direction: str,
     radius: float,
     center: tuple,
     proportions: dict,
     notes: str = ""
 ) -> str:
-    """
-    Agent 2: Drawing Improvement Instructor.
-    Turns Loomis guidelines into a beginner-friendly step-by-step drawing guide.
-    """
     cx, cy = center
 
     prompt = f"""
@@ -26,6 +22,9 @@ The system has already detected:
 - Head radius: {radius:.1f}
 - Head center: {center}
 - Facial proportions: {proportions}
+
+Retrieved visual memory context:
+{notes}
 
 The following Loomis guidelines were auto-generated:
 1. Cranial circle (base Loomis sphere)
@@ -38,16 +37,8 @@ The following Loomis guidelines were auto-generated:
 8. Outer face contour
 
 Write a detailed but simple drawing tutorial for a beginner artist.
-The tutorial must:
-
-- Use short steps (Step 1, Step 2, ...)
-- Describe how to draw the head from scratch on paper using these guides
-- Explain why each step matters
-- Include tips for symmetry, perspective, and proportion
-- Avoid talking about pixels or code
-- Only explain drawing, not technical implementation
-
-End with a short section titled "Common Beginner Mistakes" (3–5 bullets).
+...
 """
     response = instructor_llm.invoke(prompt)
     return response.content
+

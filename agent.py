@@ -9,7 +9,16 @@ from geometry_utils import calculate_head_dimensions, compute_face_turn_angle
 from render_steps import *
 from drawing_instructor_agent import generate_drawing_instructions
 
+from qdrant_setup import init_qdrant
+from embedding_utils import geometry_to_vector
+from memory_store import store_in_qdrant
+from memory_retriever import retrieve_similar
+
+
 load_dotenv()
+
+qdrant_client = init_qdrant()
+
 
 @tool
 def detect_face(image_path: str) -> str:
@@ -38,6 +47,25 @@ def apply_loomis(image_path: str, output_path: str) -> str:
     
     radius, center, _ = calculate_head_dimensions(data['face'])
     direction = compute_face_turn_angle(data['face'])
+
+    geometry = {
+    "radius": radius,
+    "center_x": center[0],
+    "center_y": center[1],
+    "direction": 1 if direction == "left" else -1
+    }
+
+    vector = geometry_to_vector(geometry)
+
+    store_in_qdrant(
+        qdrant_client,
+        vector,
+        payload={
+            "type": "reference",
+            "image_path": image_path
+        }
+    )
+
     
     img = cv2.imread(image_path)
     img = construct_loomis_sphere(img, center, radius, direction, data["face"])
@@ -91,6 +119,25 @@ def explain_loomis_guidelines(image_path: str) -> str:
     radius, center, _ = calculate_head_dimensions(data["face"])
     direction = compute_face_turn_angle(data["face"])
 
+    geometry = {
+    "radius": radius,
+    "center_x": center[0],
+    "center_y": center[1],
+    "direction": 1 if direction == "left" else -1
+    }
+
+    vector = geometry_to_vector(geometry)
+
+    store_in_qdrant(
+        qdrant_client,
+        vector,
+        payload={
+            "type": "user_drawing",
+            "image_path": image_path
+        }
+    )
+
+
     xs = [p[0] for p in data["face"]]
     ys = [p[1] for p in data["face"]]
     proportions = {
@@ -99,12 +146,20 @@ def explain_loomis_guidelines(image_path: str) -> str:
         "ratio": (max(xs) - min(xs)) / (max(ys) - min(ys)),
     }
 
+    similar_examples = retrieve_similar(qdrant_client, vector)
+
+
     tutorial = generate_drawing_instructions(
         direction=str(direction),
         radius=radius,
         center=center,
         proportions=proportions,
-        notes="The guidelines were drawn correctly."
+        notes=f"""
+Based on {len(similar_examples)} similar past Loomis constructions
+retrieved from visual memory with similar head orientation and proportions.
+"""
+
+
     )
 
     return tutorial
